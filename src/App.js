@@ -1,3 +1,82 @@
+// import React, { useState } from 'react';
+// import './App.css';
+// function ResizableDiv({ left, top, width, height }) {
+//   return (
+//     <div
+//       className="resizable-container"
+//       style={{ width: width + 'px', height: height + 'px', left: left + 'px', top: top + 'px' }}
+//     >
+//       <div className="resizable-content">
+//         Resizable Div
+//       </div>
+//     </div>
+//   );
+// }
+
+// function App() {
+//   const [divs, setDivs] = useState([]);
+//   const [isCreatingDiv, setIsCreatingDiv] = useState(false);
+//   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+//   const [dragEnd, setDragEnd] = useState({ x: 0, y: 0 });
+
+//   const handleMouseDown = (e) => {
+//     setIsCreatingDiv(true);
+//     setDragStart({ x: e.clientX, y: e.clientY });
+//     setDragEnd({ x: e.clientX, y: e.clientY });
+
+//     // Create a new div immediately upon clicking and dragging.
+//     const newDiv = {
+//       left: e.clientX,
+//       top: e.clientY,
+//       width: 0,
+//       height: 0,
+//     };
+
+//     setDivs([...divs, newDiv]);
+//   };
+
+//   const handleMouseMove = (e) => {
+//     if (isCreatingDiv) {
+//       setDragEnd({ x: e.clientX, y: e.clientY });
+
+//       // Update the size of the last created div during the drag.
+//       const updatedDivs = [...divs];
+//       const lastIndex = updatedDivs.length - 1;
+//       const newWidth = Math.abs(e.clientX - dragStart.x);
+//       const newHeight = Math.abs(e.clientY - dragStart.y);
+
+//       updatedDivs[lastIndex].width = newWidth;
+//       updatedDivs[lastIndex].height = newHeight;
+
+//       setDivs(updatedDivs);
+//     }
+//   };
+
+//   const handleMouseUp = () => {
+//     setIsCreatingDiv(false);
+//   };
+
+//   return (
+//     <div
+//       className="App"
+//       onMouseDown={handleMouseDown}
+//       onMouseMove={handleMouseMove}
+//       onMouseUp={handleMouseUp}
+//     >
+//       {divs.map((div, index) => (
+//         <ResizableDiv
+//           key={index}
+//           left={div.left}
+//           top={div.top}
+//           width={div.width}
+//           height={div.height}
+//         />
+//       ))}
+//     </div>
+//   );
+// }
+
+// export default App;
 import React, { useState, useRef } from 'react';
 import './App.css';
 import DraggableBox from './components/DragableBox';
@@ -26,7 +105,7 @@ function ResizableDiv({ left, top, width, height }) {
 }
 
 function App() {
-  const [divs, setDivs] = useState([]);
+  const [divs, setDivs] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragEnd, setDragEnd] = useState({ x: 0, y: 0 });
@@ -55,7 +134,7 @@ function App() {
 
       const newDiv = (
         <ResizableDiv
-          key={divs.length}
+          key={divs}
           left={newLeft}
           top={newTop}
           width={newWidth}
@@ -63,14 +142,13 @@ function App() {
         />
       );
 
-      setDivs([...divs, newDiv]);
+      setDivs(newDiv);
     }
   };
 
   return (
     <div
       className="App"
-      draggable="true"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -82,3 +160,4 @@ function App() {
 }
 
 export default App;
+
